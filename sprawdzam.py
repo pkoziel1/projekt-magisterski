@@ -38,4 +38,4 @@ fast_unfolding = FastUnfolding()
 
 fast_unfolding.process_graph(graph)
 
-print('stopppppppppppppppp')
+print('stoped')
