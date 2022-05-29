@@ -34,17 +34,18 @@ def fast_graph():
 def ring_graph():
     G = nx.Graph()
 
-    G.add_nodes_from(range(0, 150))
+    G.add_nodes_from(range(0, 10))
     list_of_edges = []
-    for z in range(0, 30):
+    for z in range(0, 2):
         for x in range(z*5, z*5+4):
             for y in range(1, 5):
                 if x + y > z*5+4:
                     continue
                 list_of_edges.append((x, x + y, 1))
-        if z*5+5 < 150:
+        if z*5+5 < 10:
             list_of_edges.append((z*5+4, z*5+5, 1))
-    list_of_edges.append((0, 149, 1))
+    # list_of_edges.append((0, 149, 1))
+    list_of_edges.append((0, 9, 1))
     G.add_weighted_edges_from(list_of_edges)
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     print('stop')

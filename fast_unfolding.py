@@ -36,10 +36,10 @@ class FastUnfolding:
             neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(graph, node, neighbours)
             highest_gain_neighbour = max(neighbour_to_gain_map, key=neighbour_to_gain_map.get)
             print(neighbour_to_gain_map[highest_gain_neighbour])
+            print('stop')
             if neighbour_to_gain_map[highest_gain_neighbour] > 0: #parametr
                 new_community = graph.get_node_community(highest_gain_neighbour)
                 graph.add_to_community(new_community, node)
-        print('stop')
     def _assign_init_communities(self, graph: KozikGraph):
         for community, node in enumerate(graph.get_nodes()):
             graph.add_to_community(node, community)
@@ -62,6 +62,7 @@ class FastUnfolding:
         ki = graph.get_edges_incident_to_node_weight_sum(node)
         kin = graph.get_edges_in_community_incident_to_node_weight_sum(node, community)
         m = graph.get_all_edges_weight_sum()
+        print('stop')
         return (((Ein + kin) / (2 * m)) - (((Etot + ki) / (2 * m)) ** 2)) - (
                     (Ein / (2 * m)) - ((Etot / (2 * m)) ** 2) - ((ki / (2 * m)) ** 2))
 
