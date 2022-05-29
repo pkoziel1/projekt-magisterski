@@ -91,16 +91,6 @@ class KozikGraph:
     @classmethod
     def load_karate_graph(cls):
         #G = nx.karate_club_graph()
-        G = nx.Graph()
-        G.add_nodes_from(range(0, 16))
-        G.add_weighted_edges_from([(0, 2, 1), (0, 3, 1), (0, 4, 1), (0, 5, 1), (1, 2, 1), (1, 4, 1), (1, 7, 1),
-                                   (2, 4, 1), (2, 5, 1), (2, 6, 1), (3, 7, 1), (4, 10, 1), (5, 7, 1), (5, 11, 1),
-                                   (6, 7, 1), (6, 11, 1), (8, 9, 1), (8, 10, 1), (8, 11, 1), (8, 14, 1),
-                                   (8, 15, 1), (9, 12, 1), (9, 14, 1), (10, 11, 1), (10, 12, 1), (10, 13, 1),
-                                   (10, 14, 1), (11, 13, 1)])
-        nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
-        nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-        plt.show()
         return cls(graph=G)
 
 
