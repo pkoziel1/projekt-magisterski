@@ -90,7 +90,7 @@ class KozikGraph:
 
     @classmethod
     def load_karate_graph(cls):
-        #G = nx.karate_club_graph()
+        G = nx.karate_club_graph()
         return cls(graph=G)
 
 

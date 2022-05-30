@@ -16,7 +16,7 @@ class FastUnfolding:
         ...
         # For ...
             # self.process()
-            # new graph = create child graph
+            # new graph = generate_child_kozik_graph
             # if modularity gain high enough:
                 # break
 

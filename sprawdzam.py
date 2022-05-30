@@ -1,3 +1,4 @@
+import networkx.algorithms.community as nx_comm
 from fast_unfolding import FastUnfolding
 from graph import KozikGraph
 import pandas as pd
@@ -28,35 +29,43 @@ def fast_graph():
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
+    print(greedy_modularity_communities(G))
+    print('stop')
     return G
 
 
 def ring_graph():
     G = nx.Graph()
 
-    G.add_nodes_from(range(0, 10))
+    # G.add_nodes_from(range(0, 10))
+    G.add_nodes_from(range(0, 150))
     list_of_edges = []
-    for z in range(0, 2):
+    # for z in range(0, 2):
+    for z in range(0, 30):
         for x in range(z*5, z*5+4):
             for y in range(1, 5):
                 if x + y > z*5+4:
                     continue
                 list_of_edges.append((x, x + y, 1))
-        if z*5+5 < 10:
+        # if z*5+5 < 10:
+        if z*5+5 < 150:
             list_of_edges.append((z*5+4, z*5+5, 1))
-    # list_of_edges.append((0, 149, 1))
-    list_of_edges.append((0, 9, 1))
+    list_of_edges.append((0, 149, 1))
+    # list_of_edges.append((0, 9, 1))
     G.add_weighted_edges_from(list_of_edges)
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
-    print('stop')
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
+    print(nx_comm.greedy_modularity_communities(G))
+    print(nx_comm.modularity(G, nx_comm.label_propagation_communities(G)))
+    print('stop')
     return G
 
 
 # graph = KozikGraph.load_karate_graph()
 # graph = KozikGraph(graph=get_bitcoin_graph())
 graph = KozikGraph(graph=ring_graph())
+# graph = KozikGraph(graph=fast_graph())
 print('stop')
 fast_unfolding = FastUnfolding()
 
