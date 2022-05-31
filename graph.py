@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from networkx import Graph
 import networkx as nx
 from networkx.classes.reportviews import EdgeDataView
-
+import networkx.algorithms.community as nx_comm
 
 class KozikGraph:
     def __init__(self, graph: Graph):
@@ -37,6 +37,10 @@ class KozikGraph:
 
     def get_all_edges_weight_sum(self) -> int:
         return self.get_edges_weight_sum(self.get_all_edges())
+
+    def modularity(self) -> float:
+        list_of_communities = [members for members in self.communities.values() if members]
+        return nx_comm.modularity(self.graph, list_of_communities)
 
     # =========================== COMMUNITY
     def get_node_community(self, u: int) -> Optional[int]:

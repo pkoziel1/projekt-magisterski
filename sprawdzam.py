@@ -29,8 +29,6 @@ def fast_graph():
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
-    print(greedy_modularity_communities(G))
-    print('stop')
     return G
 
 
@@ -56,8 +54,9 @@ def ring_graph():
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
+    # this returns correct results ergo graph is good
     print(nx_comm.greedy_modularity_communities(G))
-    print(nx_comm.modularity(G, nx_comm.label_propagation_communities(G)))
+    print(nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G)))
     print('stop')
     return G
 
