@@ -5,7 +5,7 @@ import networkx as nx
 from networkx import Graph
 import random
 
-from graph import KozikGraph
+from graph import KozikGraph, generate_child_kozik_graph
 
 
 class FastUnfolding:
@@ -13,12 +13,13 @@ class FastUnfolding:
         ...
 
     def run(self, graph: KozikGraph):
-        ...
-        # For ...
-            # self.process()
-            # new graph = generate_child_kozik_graph
-            # if modularity gain high enough:
-                # break
+        while True:
+            initial_modularity = graph.modularity()
+            self.process_graph(graph)
+            if graph.modularity() <= initial_modularity:
+                break
+            graph = generate_child_kozik_graph(graph)
+        print(f'Modularity = {graph.modularity()}')
 
     def process_graph(self, graph: KozikGraph):
         self._assign_init_communities(graph)
@@ -51,9 +52,9 @@ class FastUnfolding:
         gain_map = {}
         for neighbour in neighbours:
             neighbour_community = graph.get_node_community(neighbour)
-            if neighbour_community == graph.get_node_community(node):
-                gain_map[neighbour] = -1
-                continue
+            # if neighbour_community == graph.get_node_community(node):
+            #     gain_map[neighbour] = -1
+            #     continue
 
             gain_map[neighbour] = self._calculate_modularity_gain(graph, neighbour_community, node)
         return gain_map
