@@ -13,6 +13,9 @@ class KozikGraph:
         self.communities: Dict[int: List[int]] = defaultdict(list)
         print("stop")
 
+    def __repr__(self):
+        return f"Modularity: {self.modularity()}"
+
     def get_nodes(self) -> Iterable[int]:
         return self.graph.nodes
 
@@ -113,5 +116,6 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
         new_edges.append(new_edge)
 
     # ..
-    # ..
-    return KozikGraph(graph=G)
+    new_graph = KozikGraph(graph=G)
+    print(new_graph)
+    return new_graph
