@@ -4,7 +4,7 @@ import numpy
 import networkx as nx
 from networkx import Graph
 import random
-
+import networkx.algorithms.community as nx_comm
 from graph import KozikGraph, generate_child_kozik_graph
 
 
@@ -23,15 +23,9 @@ class FastUnfolding:
 
     def process_graph(self, graph: KozikGraph):
         self._assign_init_communities(graph)
-
-        # temp - testing
-        # graph.add_to_community(0, 4)
-        # graph.add_to_community(0, 3)
-        # graph.add_to_community(0, 2)
-        # graph.add_to_community(0, 1)
-
         nodes = [node for node in graph.get_nodes()]
         # random.shuffle(nodes)
+        print('stop')
         for node in nodes:
             neighbours = graph.get_neighbours(node)
             neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(graph, node, neighbours)
@@ -40,7 +34,22 @@ class FastUnfolding:
             if neighbour_to_gain_map[highest_gain_neighbour] > 0: #parametr
                 new_community = graph.get_node_community(highest_gain_neighbour)
                 graph.add_to_community(new_community, node)
-        new_graph = generate_child_kozik_graph(graph)
+        graph = generate_child_kozik_graph(graph)
+        print('stop')
+        self._assign_init_communities(graph)
+        nodes = [node for node in graph.get_nodes()]
+        # random.shuffle(nodes)
+        print('stop')
+        # TODO: find error - TypeError: 'int' object is not iterable
+        for node in nodes:
+            neighbours = graph.get_neighbours(node)
+            neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(graph, node, neighbours)
+            highest_gain_neighbour = max(neighbour_to_gain_map, key=neighbour_to_gain_map.get)
+            print(neighbour_to_gain_map[highest_gain_neighbour])
+            if neighbour_to_gain_map[highest_gain_neighbour] > 0:  # parametr
+                new_community = graph.get_node_community(highest_gain_neighbour)
+                graph.add_to_community(new_community, node)
+        graph = generate_child_kozik_graph(graph)
         print('stop')
 
     def _assign_init_communities(self, graph: KozikGraph):
