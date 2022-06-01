@@ -116,17 +116,18 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
         community_weight_sum = kozik_graph.get_edges_weight_sum(edges_inside_community)
         G.add_weighted_edges_from([(community, community, community_weight_sum)])
         # TODO: create edges between new nodes
-        nodes_in_current_community = kozik_graph.get_community_nodes(community)
         edges_incident_to_community = kozik_graph.get_edges_incident_to_community(community)
         outside_edges = [edge for edge in edges_incident_to_community if edge not in edges_inside_community]
         for edge in outside_edges:
-            communities = kozik_graph.get_edge_communities(edge)
-
-            print('stop')
-        between_communities_weight = kozik_graph.get_edges_weight_sum
-
+            outside_communities = kozik_graph.get_edge_communities(edge)
+            outside_communities.remove(community)
+            for comm in outside_communities:
+                edges_between_communities = [edge for edge in outside_edges if comm in kozik_graph.get_edge_communities(edge)]
+                outside_community_weight_sum = kozik_graph.get_edges_weight_sum(edges_between_communities)
+                if (comm, community) in G.edges:
+                    continue
+                G.add_weighted_edges_from([(community, comm, outside_community_weight_sum)])
         print('stop')
 
     new_graph = KozikGraph(graph=G)
-    # print(new_graph)
     return new_graph
