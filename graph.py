@@ -128,6 +128,8 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
                     continue
                 G.add_weighted_edges_from([(community, comm, outside_community_weight_sum)])
         print('stop')
-
+    mapping = dict(list(enumerate(new_nodes)))
+    inv_mapping = {v: k for k, v in mapping.items()}
+    G = nx.relabel_nodes(G, inv_mapping)
     new_graph = KozikGraph(graph=G)
     return new_graph
