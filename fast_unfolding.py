@@ -36,9 +36,9 @@ class FastUnfolding:
                 graph.add_to_community(new_community, node)
         graph = generate_child_kozik_graph(graph)
         self._assign_init_communities(graph)
-        nodes2 = [node for node in graph.get_nodes()]
+        nodes = [node for node in graph.get_nodes()]
         print('stop')
-        for node in nodes2:
+        for node in nodes:
             neighbours = graph.get_neighbours(node)
             neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(graph, node, neighbours)
             highest_gain_neighbour = max(neighbour_to_gain_map, key=neighbour_to_gain_map.get)
