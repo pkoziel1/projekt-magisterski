@@ -30,31 +30,29 @@ class FastUnfolding:
             neighbours = graph.get_neighbours(node)
             neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(graph, node, neighbours)
             highest_gain_neighbour = max(neighbour_to_gain_map, key=neighbour_to_gain_map.get)
-            print(neighbour_to_gain_map[highest_gain_neighbour])
+            # print(neighbour_to_gain_map[highest_gain_neighbour])
             if neighbour_to_gain_map[highest_gain_neighbour] > 0: #parametr
                 new_community = graph.get_node_community(highest_gain_neighbour)
                 graph.add_to_community(new_community, node)
         graph = generate_child_kozik_graph(graph)
-        print('stop')
         self._assign_init_communities(graph)
-        nodes = [node for node in graph.get_nodes()]
-        # random.shuffle(nodes)
+        nodes2 = [node for node in graph.get_nodes()]
         print('stop')
-        # TODO: find error - TypeError: 'int' object is not iterable
-        for node in nodes:
+        for node in nodes2:
             neighbours = graph.get_neighbours(node)
             neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(graph, node, neighbours)
             highest_gain_neighbour = max(neighbour_to_gain_map, key=neighbour_to_gain_map.get)
-            print(neighbour_to_gain_map[highest_gain_neighbour])
-            if neighbour_to_gain_map[highest_gain_neighbour] > 0:  # parametr
+            # print(neighbour_to_gain_map[highest_gain_neighbour])
+            if neighbour_to_gain_map[highest_gain_neighbour] > 0: #parametr
                 new_community = graph.get_node_community(highest_gain_neighbour)
                 graph.add_to_community(new_community, node)
-        graph = generate_child_kozik_graph(graph)
         print('stop')
+
 
     def _assign_init_communities(self, graph: KozikGraph):
         for community, node in enumerate(graph.get_nodes()):
             graph.add_to_community(node, community)
+            print('stop')
 
     def map_modularity_gain_to_neighbours(self, graph: KozikGraph, node: int, neighbours: Iterable[int]) -> dict[
         int, float]:
