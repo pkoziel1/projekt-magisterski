@@ -66,7 +66,7 @@ def ring_graph_after_1_step():
     list_of_edges = []
     list_of_edges.append((0,29,1))
     for node in range(0, 30):
-        list_of_edges.append((node,node,20))
+        list_of_edges.append((node,node,10))
         if node+1 > 29:
             break
         list_of_edges.append((node, node+1, 1))
@@ -78,24 +78,10 @@ def ring_graph_after_1_step():
     print('stop')
     return G
 
-
-def testing_graph():
-    G = nx.Graph()
-    G.add_nodes_from(range(0, 9))
-    G.add_weighted_edges_from([(0, 1, 1), (0, 4, 1), (1, 2, 1), (1, 3, 1), (2, 3, 1), (2, 4, 1),
-                               (3, 4, 1), (4, 5, 1), (5, 6, 1), (5, 7, 1), (5, 8, 1), (6, 7, 1), (7, 8, 1)])
-    nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
-    nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-    plt.show()
-    # this returns correct results ergo graph is good
-    print('stop')
-    return G
-
-
-graph = KozikGraph.load_karate_graph()
+# graph = KozikGraph.load_karate_graph()
 # graph = KozikGraph(graph=get_bitcoin_graph())
 # graph = KozikGraph(graph=ring_graph())
-# graph = KozikGraph(graph=ring_graph_after_1_step())
+graph = KozikGraph(graph=ring_graph_after_1_step())
 # graph = KozikGraph(graph=fast_graph())
 # graph = KozikGraph(graph=testing_graph())
 print('stop')
