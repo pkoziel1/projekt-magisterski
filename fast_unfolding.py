@@ -34,6 +34,8 @@ class FastUnfolding:
             if neighbour_to_gain_map[highest_gain_neighbour] > 0: #parametr
                 new_community = graph.get_node_community(highest_gain_neighbour)
                 graph.add_to_community(new_community, node)
+            print('stop')
+        print('stop')
         graph = generate_child_kozik_graph(graph)
         self._assign_init_communities(graph)
         nodes = [node for node in graph.get_nodes()]
@@ -47,7 +49,10 @@ class FastUnfolding:
                 new_community = graph.get_node_community(highest_gain_neighbour)
                 graph.add_to_community(new_community, node)
         print('stop')
-
+        graph = generate_child_kozik_graph(graph)
+        self._assign_init_communities(graph)
+        nodes = [node for node in graph.get_nodes()]
+        print('stop')
 
     def _assign_init_communities(self, graph: KozikGraph):
         for community, node in enumerate(graph.get_nodes()):
