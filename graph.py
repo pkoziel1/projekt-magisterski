@@ -81,6 +81,7 @@ class KozikGraph:
     def get_edges_incident_to_community_weight_sum(self, community: int) -> int:
         return self.get_edges_weight_sum(self.get_edges_incident_to_community(community))
 
+    # TODO: ta funkcja dubluje niektore edge (chyba)
     def get_edges_inside_community(self, community: int) -> List[Tuple[int, int]]:
         community_nodes = self.get_community_nodes(community)
         return [
@@ -122,7 +123,7 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
     for community in new_nodes:
         edges_inside_community = kozik_graph.get_edges_inside_community(community)
         community_weight_sum = kozik_graph.get_edges_weight_sum(edges_inside_community)
-        G.add_weighted_edges_from([(community, community, community_weight_sum/2)])
+        G.add_weighted_edges_from([(community, community, community_weight_sum)])
         # TODO: create edges between new nodes
         edges_incident_to_community = kozik_graph.get_edges_incident_to_community(community)
         outside_edges = [edge for edge in edges_incident_to_community if edge not in edges_inside_community]
