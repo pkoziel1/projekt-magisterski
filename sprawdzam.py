@@ -85,7 +85,7 @@ def ring_graph_after_2_step():
     list_of_edges = []
     list_of_edges.append((0,14,1))
     for node in range(0, 15):
-        list_of_edges.append((node,node,21))
+        list_of_edges.append((node, node, 21))
         if node+1 > 14:
             break
         list_of_edges.append((node, node+1, 1))
@@ -99,13 +99,14 @@ def ring_graph_after_2_step():
 
 # graph = KozikGraph.load_karate_graph()
 # graph = KozikGraph(graph=get_bitcoin_graph())
-# graph = KozikGraph(graph=ring_graph())
+graph = KozikGraph(graph=ring_graph())
 # graph = KozikGraph(graph=ring_graph_after_1_step())
-graph = KozikGraph(graph=ring_graph_after_2_step())
+# graph = KozikGraph(graph=ring_graph_after_2_step())
 # graph = KozikGraph(graph=fast_graph())
 print('stop')
 fast_unfolding = FastUnfolding()
-
+# TODO: sprawdzic jak dziala ten networkx greedy modularity
+# nx_comm.greedy_modularity_communities()
 fast_unfolding.process_graph(graph)
 
 print('stoped')
