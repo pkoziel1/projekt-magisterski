@@ -69,7 +69,14 @@ class KozikGraph:
             self.communities[community].pop(self.communities[community].index(u))
 
     def get_edges_inside_community_weight_sum(self, community: int) -> int:
-        return self.get_edges_weight_sum(self.get_edges_inside_community(community))
+        edges_inside_community = self.get_edges_inside_community(community)
+        # print('stop')
+        # for edge in edges_inside_community:
+        #     print(edge)
+        #     if edge[0] == edge[1]:
+        #         edges_inside_community.remove((edge[0], edge[1]))
+        # print('stop')
+        return self.get_edges_weight_sum(edges_inside_community)
 
     def get_edges_incident_to_community_weight_sum(self, community: int) -> int:
         return self.get_edges_weight_sum(self.get_edges_incident_to_community(community))
@@ -91,6 +98,7 @@ class KozikGraph:
             for edge in self.get_edges_incident_to(node)
         ]
 
+    # TODO: ten "kin" zle dziala (chyba) jesli community i node ma to samo oznaczenie
     def get_edges_in_community_incident_to_node_weight_sum(self, u: int, community: int):
         community_nodes = self.get_community_nodes(community)
         edges = [edge for edge in self.get_edges_incident_to(u)
