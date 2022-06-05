@@ -78,6 +78,6 @@ class FastUnfolding:
         kin = graph.get_edges_in_community_incident_to_node_weight_sum(node, community)
         m = graph.get_all_edges_weight_sum()
         print('stop')
-        return (((Ein + kin) / (2 * m)) - (((Etot + ki) / (2 * m)) ** 2)) - (
-                    (Ein / (2 * m)) - ((Etot / (2 * m)) ** 2) - ((ki / (2 * m)) ** 2))
+        return 1000*((((Ein + kin) / (2 * m)) - (((Etot + ki) / (2 * m)) ** 2)) - (
+                    (Ein / (2 * m)) - ((Etot / (2 * m)) ** 2) - ((ki / (2 * m)) ** 2)))
 
