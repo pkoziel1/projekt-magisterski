@@ -60,6 +60,7 @@ def ring_graph():
     print('stop')
     return G
 
+
 def ring_graph_after_1_step():
     G = nx.Graph()
     G.add_nodes_from(range(0, 30))
@@ -78,12 +79,30 @@ def ring_graph_after_1_step():
     print('stop')
     return G
 
+def ring_graph_after_2_step():
+    G = nx.Graph()
+    G.add_nodes_from(range(0, 15))
+    list_of_edges = []
+    list_of_edges.append((0,14,1))
+    for node in range(0, 15):
+        list_of_edges.append((node,node,21))
+        if node+1 > 14:
+            break
+        list_of_edges.append((node, node+1, 1))
+    G.add_weighted_edges_from(list_of_edges)
+    nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
+    nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
+    plt.show()
+    # this returns correct results ergo graph is good
+    print('stop')
+    return G
+
 # graph = KozikGraph.load_karate_graph()
 # graph = KozikGraph(graph=get_bitcoin_graph())
 # graph = KozikGraph(graph=ring_graph())
-graph = KozikGraph(graph=ring_graph_after_1_step())
+# graph = KozikGraph(graph=ring_graph_after_1_step())
+graph = KozikGraph(graph=ring_graph_after_2_step())
 # graph = KozikGraph(graph=fast_graph())
-# graph = KozikGraph(graph=testing_graph())
 print('stop')
 fast_unfolding = FastUnfolding()
 
