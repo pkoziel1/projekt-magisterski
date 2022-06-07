@@ -104,6 +104,11 @@ class KozikGraph:
         community_nodes = self.get_community_nodes(community)
         edges = [edge for edge in self.get_edges_incident_to(u)
                  if edge[0] in community_nodes or edge[1] in community_nodes]
+        print('stop')
+        for edge in edges:
+            if edge[0] == edge[1]:
+                edges.remove((edge[0], edge[1]))
+        print('stop')
         return self.get_edges_weight_sum(edges)
 
     # =========================== UTILS
