@@ -14,7 +14,7 @@ class KozikGraph:
         print("stop")
 
     def __repr__(self):
-        return f"Modularity: {self.modularity()}"
+        return f"Modularity: {self.modularity():.3f}"
 
     def get_nodes(self) -> Iterable[int]:
         return self.graph.nodes
@@ -99,15 +99,15 @@ class KozikGraph:
             for edge in self.get_edges_incident_to(node)
         ]
 
-    # TODO: ten "kin" zle dziala (chyba) jesli community i node ma to samo oznaczenie
     def get_edges_in_community_incident_to_node_weight_sum(self, u: int, community: int):
+        current_community = self.get_node_community(u)
         community_nodes = self.get_community_nodes(community)
+        current_community_nodes = self.get_community_nodes(current_community)
         edges = [edge for edge in self.get_edges_incident_to(u)
-                 if edge[0] in community_nodes or edge[1] in community_nodes]
-        print('stop')
-        for edge in edges:
-            if edge[0] == edge[1]:
-                edges.remove((edge[0], edge[1]))
+                 if ((edge[0] in current_community_nodes and edge[1] in community_nodes) or
+                     (edge[1] in current_community_nodes and edge[0] in community_nodes))
+                 ]
+
         print('stop')
         return self.get_edges_weight_sum(edges)
 
