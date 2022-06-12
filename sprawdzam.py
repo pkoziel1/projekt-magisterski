@@ -54,10 +54,6 @@ def ring_graph():
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
-    # this returns correct results ergo graph is good
-    print(nx_comm.greedy_modularity_communities(G))
-    print(nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G)))
-    print('stop')
     return G
 
 
@@ -75,8 +71,6 @@ def ring_graph_after_1_step():
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
-    # this returns correct results ergo graph is good
-    print('stop')
     return G
 
 def ring_graph_after_2_step():
@@ -93,20 +87,25 @@ def ring_graph_after_2_step():
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     plt.show()
-    # this returns correct results ergo graph is good
-    print('stop')
     return G
 
-# graph = KozikGraph.load_karate_graph()
+def karate_graph():
+    G = nx.balanced_tree(5, 2)
+    nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
+    nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
+    print(nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G)))
+    c = nx_comm.greedy_modularity_communities(G)
+    print('stop')
+    plt.show()
+    return G
+
+graph = KozikGraph(graph=karate_graph())
 # graph = KozikGraph(graph=get_bitcoin_graph())
-graph = KozikGraph(graph=ring_graph())
+# graph = KozikGraph(graph=ring_graph())
 # graph = KozikGraph(graph=ring_graph_after_1_step())
 # graph = KozikGraph(graph=ring_graph_after_2_step())
 # graph = KozikGraph(graph=fast_graph())
-print('stop')
 fast_unfolding = FastUnfolding()
-# TODO: sprawdzic jak dziala ten networkx greedy modularity
-# nx_comm.greedy_modularity_communities()
-fast_unfolding.process_graph(graph)
+fast_unfolding.run(graph)
 
 print('stoped')
