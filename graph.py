@@ -1,24 +1,29 @@
 from collections import defaultdict
 from typing import List, Iterable, Dict, Optional, Tuple
-import matplotlib.pyplot as plt
 from networkx import Graph
 import networkx as nx
 from networkx.classes.reportviews import EdgeDataView
 import networkx.algorithms.community as nx_comm
+
 
 class KozikGraph:
     def __init__(self, graph: Graph):
         self.graph = graph
         # community -> list of nodes
         self.communities: Dict[int: List[int]] = defaultdict(list)
-        print("stop")
+        self._assign_init_communities()
 
     def __repr__(self):
         return f"Modularity: {self.modularity():.3f}"
 
+    def _assign_init_communities(self):
+        for community, node in enumerate(self.get_nodes()):
+            self.add_to_community(node, community)
+
     def get_nodes(self) -> Iterable[int]:
         return self.graph.nodes
 
+    # TODO: jeśli nie ma wagi, to do połączenia dać wagę 1
     def get_weight(self, u: int, v: int) -> int:
         return self.graph.get_edge_data(u, v)['weight']
 
@@ -70,12 +75,6 @@ class KozikGraph:
 
     def get_edges_inside_community_weight_sum(self, community: int) -> int:
         edges_inside_community = self.get_edges_inside_community(community)
-        # print('stop')
-        # for edge in edges_inside_community:
-        #     print(edge)
-        #     if edge[0] == edge[1]:
-        #         edges_inside_community.remove((edge[0], edge[1]))
-        # print('stop')
         return self.get_edges_weight_sum(edges_inside_community)
 
     def get_edges_incident_to_community_weight_sum(self, community: int) -> int:
@@ -100,16 +99,15 @@ class KozikGraph:
         ]
 
     def get_edges_in_community_incident_to_node_weight_sum(self, u: int, community: int):
-        current_community = self.get_node_community(u)
         community_nodes = self.get_community_nodes(community)
-        current_community_nodes = self.get_community_nodes(current_community)
-        edges = [edge for edge in self.get_edges_incident_to(u)
-                 if ((edge[0] in current_community_nodes and edge[1] in community_nodes) or
-                     (edge[1] in current_community_nodes and edge[0] in community_nodes))
-                 ]
-
-        print('stop')
-        return self.get_edges_weight_sum(edges)
+        edges = []
+        self_edges = []
+        for edge in self.get_edges_incident_to(u):
+            if edge[0] == edge[1]:
+                self_edges.append(edge)
+            elif edge[0] in community_nodes or edge[1] in community_nodes:
+                edges.append(edge)
+        return self.get_edges_weight_sum(edges) if not self_edges else len(self_edges)
 
     # =========================== UTILS
 
@@ -135,12 +133,12 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
             outside_communities = kozik_graph.get_edge_communities(edge)
             outside_communities.remove(community)
             for comm in outside_communities:
-                edges_between_communities = [edge for edge in outside_edges if comm in kozik_graph.get_edge_communities(edge)]
+                edges_between_communities = [edge for edge in outside_edges if
+                                             comm in kozik_graph.get_edge_communities(edge)]
                 outside_community_weight_sum = kozik_graph.get_edges_weight_sum(edges_between_communities)
                 if (comm, community) in G.edges:
                     continue
                 G.add_weighted_edges_from([(community, comm, outside_community_weight_sum)])
-        print('stop')
     mapping = dict(list(enumerate(new_nodes)))
     inv_mapping = {v: k for k, v in mapping.items()}
     G = nx.relabel_nodes(G, inv_mapping)
