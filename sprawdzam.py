@@ -98,11 +98,26 @@ def karate_graph():
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
-    print('stop')
+    print(f'NetX mod: {mod}')
+    plt.show()
+    return G
+
+def florentine_families_graph():
+    G = nx.florentine_families_graph()
+    mapping = {old_name: idx for idx, old_name in enumerate(G.nodes())}
+    for u, v, d in G.edges(data=True):
+        d['weight'] = 1
+    G = nx.relabel_nodes(G, mapping)
+    nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
+    nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+    c = nx_comm.greedy_modularity_communities(G)
+    print(f'NetX mod: {mod}')
     plt.show()
     return G
 
 graph = KozikGraph(graph=karate_graph())
+# graph = KozikGraph(graph=florentine_families_graph())
 # graph = KozikGraph(graph=get_bitcoin_graph())
 # graph = KozikGraph(graph=ring_graph())
 # graph = KozikGraph(graph=ring_graph_after_1_step())
