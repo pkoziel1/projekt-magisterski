@@ -8,13 +8,16 @@ import networkx as nx
 
 def get_bitcoin_graph():
     data = pd.read_csv("soc-sign-bitcoinalpha.csv")
-    source_list = list(data['source'])
-    target_list = list(data['target'])
-    rating_list = list(data['rating'])
-    print('m =', sum(rating_list))
-    G = nx.DiGraph()
+    source_list = list(data['source'])[2000:2500]
+    target_list = list(data['target'])[2000:2500]
+    rating_list = list(data['rating'])[2000:2500]
+    print(rating_list)
+    G = nx.Graph()
     G.add_nodes_from(list(range(0, max(data['source']))))
     G.add_weighted_edges_from(list(zip(source_list, target_list, rating_list)))
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+    c = nx_comm.greedy_modularity_communities(G)
+    print('stop')
     return G
 
 
@@ -90,10 +93,10 @@ def ring_graph_after_2_step():
     return G
 
 def karate_graph():
-    G = nx.balanced_tree(5, 2)
+    G = nx.karate_club_graph()
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-    print(nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G)))
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
     print('stop')
     plt.show()
