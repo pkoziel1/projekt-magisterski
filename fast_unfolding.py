@@ -15,9 +15,12 @@ class FastUnfolding:
 
     def process_graph(self, graph: KozikGraph):
         for node in graph.get_nodes():
-            neighbours = graph.get_neighbours(node)
+            neighbours = list(graph.get_neighbours(node))  # TMP list() for debug
+            # TODO: dodac if jeśli wszyscy sąsiedzi są już w community danego node
             neighbour_to_gain_map: Dict[int, float] = self.map_modularity_gain_to_neighbours(
                 graph, node, neighbours)
+            # highest_gain_neighbour = max([keys for keys, value in neighbour_to_gain_map.items() if value ==
+            #                               max(neighbour_to_gain_map.values())])
             highest_gain_neighbour = max(neighbour_to_gain_map, key=neighbour_to_gain_map.get)
             if neighbour_to_gain_map[highest_gain_neighbour] > 0:
                 new_community = graph.get_node_community(highest_gain_neighbour)
@@ -28,7 +31,6 @@ class FastUnfolding:
         gain_map = {}
         for neighbour in neighbours:
             neighbour_community = graph.get_node_community(neighbour)
-
             gain_map[neighbour] = self._calculate_modularity_gain(graph, neighbour_community, node)
         return gain_map
 
