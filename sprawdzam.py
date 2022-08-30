@@ -31,7 +31,9 @@ def fast_graph():
                                (10, 14, 1), (11, 13, 1)])
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-    plt.show()
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+    c = nx_comm.greedy_modularity_communities(G)
+    print(f'NetX mod: {mod}')
     return G
 
 
@@ -56,7 +58,9 @@ def ring_graph():
     G.add_weighted_edges_from(list_of_edges)
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-    plt.show()
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+    c = nx_comm.greedy_modularity_communities(G)
+    print(f'NetX mod: {mod}')
     return G
 
 
@@ -73,7 +77,9 @@ def ring_graph_after_1_step():
     G.add_weighted_edges_from(list_of_edges)
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-    plt.show()
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+    c = nx_comm.greedy_modularity_communities(G)
+    print(f'NetX mod: {mod}')
     return G
 
 def ring_graph_after_2_step():
@@ -98,8 +104,8 @@ def karate_graph():
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
-    print(f'NetX mod: {mod}')
     plt.show()
+    print(f'NetX mod: {mod}')
     return G
 
 def florentine_families_graph():
@@ -112,18 +118,37 @@ def florentine_families_graph():
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
-    print(f'NetX mod: {mod}')
     plt.show()
+    print(f'NetX mod: {mod}')
     return G
 
-graph = KozikGraph(graph=karate_graph())
+def small_graph():
+    G = nx.Graph()
+    G.add_nodes_from(range(0, 7))
+    G.add_weighted_edges_from([(0, 0, 1), (0, 1, 1), (0, 2, 2), (0, 3, 1), (0, 5, 1),
+                               (1, 1, 1), (1, 4, 2), (2, 2, 1), (2, 4, 1), (2, 6, 1),
+                               (3, 3, 1), (4, 4, 3), (4, 6, 1), (5, 5, 1), (5, 6, 1), (6, 6, 1)])
+    nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
+    nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+    c = nx_comm.greedy_modularity_communities(G)
+    plt.show()
+    print(f'NetX mod: {mod}')
+    return G
+
+
+
+# graph = KozikGraph(graph=small_graph())
+# graph = KozikGraph(graph=karate_graph())
 # graph = KozikGraph(graph=florentine_families_graph())
 # graph = KozikGraph(graph=get_bitcoin_graph())
 # graph = KozikGraph(graph=ring_graph())
 # graph = KozikGraph(graph=ring_graph_after_1_step())
 # graph = KozikGraph(graph=ring_graph_after_2_step())
-# graph = KozikGraph(graph=fast_graph())
+graph = KozikGraph(graph=fast_graph())
 fast_unfolding = FastUnfolding()
 fast_unfolding.run(graph)
+
+plt.show()
 
 print('stoped')
