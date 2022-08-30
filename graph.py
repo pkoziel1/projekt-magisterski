@@ -86,7 +86,8 @@ class KozikGraph:
         for node in community_nodes:
             for edge in self.get_edges_incident_to(node):
                 if edge[0] in community_nodes and edge[1] in community_nodes:
-                    if (edge[1], edge[0]) not in edges:
+                    # if (edge[1], edge[0]) not in edges:
+                    if (edge[1], edge[0]) not in edges and (edge[0], edge[1]) not in edges:
                         edges.append(edge)
         return edges
 
@@ -96,6 +97,7 @@ class KozikGraph:
             edge
             for node in community_nodes
             for edge in self.get_edges_incident_to(node)
+            # if not self.get_node_community(edge[0]) == self.get_node_community(edge[1])
         ]
 
     def get_edges_in_community_incident_to_node_weight_sum(self, u: int, community: int):
@@ -107,7 +109,8 @@ class KozikGraph:
                 self_edges.append(edge)
             elif edge[0] in community_nodes or edge[1] in community_nodes:
                 edges.append(edge)
-        return self.get_edges_weight_sum(edges) if not self_edges else len(self_edges)
+        # return self.get_edges_weight_sum(edges) if not self_edges else len(self_edges)
+        return self.get_edges_weight_sum(edges) if not u == community else len(self_edges)
 
     # =========================== UTILS
 
