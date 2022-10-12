@@ -109,7 +109,9 @@ def karate_graph():
     return G
 
 def florentine_families_graph():
-    G = nx.florentine_families_graph()
+    # G = nx.florentine_families_graph()
+    # G = nx.davis_southern_women_graph()
+    G = nx.les_miserables_graph()
     mapping = {old_name: idx for idx, old_name in enumerate(G.nodes())}
     for u, v, d in G.edges(data=True):
         d['weight'] = 1
