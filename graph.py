@@ -123,6 +123,13 @@ class KozikGraph:
 
 def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
     # create new nodes and edges....
+
+    # macierze
+
+    # Profiler how do I profile
+
+    # duże grafy prześledzić
+
     G = nx.Graph()
     new_nodes = [community for community, members in kozik_graph.communities.items() if members]
     G.add_nodes_from(new_nodes)
@@ -149,3 +156,15 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
     G = nx.relabel_nodes(G, inv_mapping)
     new_graph = KozikGraph(graph=G)
     return new_graph
+
+# wstęp
+
+# przegląd literatury
+
+# opisać algorytmy
+
+# przedstawić implementacje
+
+# testy (szybkości itp.)
+
+# podsumowanie (głównie o wadach)
