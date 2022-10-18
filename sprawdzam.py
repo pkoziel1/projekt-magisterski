@@ -1,10 +1,10 @@
+import time
 import networkx.algorithms.community as nx_comm
 from fast_unfolding import FastUnfolding
 from graph import KozikGraph
 import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
-
 
 def get_bitcoin_graph():
     data = pd.read_csv("soc-sign-bitcoinalpha.csv")
@@ -147,10 +147,12 @@ def small_graph():
 # graph = KozikGraph(graph=ring_graph())
 # graph = KozikGraph(graph=ring_graph_after_1_step())
 # graph = KozikGraph(graph=ring_graph_after_2_step())
+print(time.perf_counter())
 graph = KozikGraph(graph=fast_graph())
 fast_unfolding = FastUnfolding()
+print(time.perf_counter())
 fast_unfolding.run(graph)
-
+print(time.perf_counter())
 plt.show()
 
 print('stoped')
