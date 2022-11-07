@@ -1,3 +1,4 @@
+import math
 import time
 import networkx.algorithms.community as nx_comm
 from fast_unfolding import FastUnfolding
@@ -95,7 +96,7 @@ def ring_graph_after_2_step():
     G.add_weighted_edges_from(list_of_edges)
     nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
-    plt.show()
+    # plt.show()
     return G
 
 def karate_graph():
@@ -104,7 +105,7 @@ def karate_graph():
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
-    plt.show()
+    # plt.show()
     print(f'NetX mod: {mod}')
     return G
 
@@ -120,7 +121,7 @@ def florentine_families_graph():
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
-    plt.show()
+    # plt.show()
     print(f'NetX mod: {mod}')
     return G
 
@@ -134,12 +135,12 @@ def small_graph():
     nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
     mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
     c = nx_comm.greedy_modularity_communities(G)
-    plt.show()
+    # plt.show()
     print(f'NetX mod: {mod}')
     return G
 
 
-
+# graph = KozikGraph(graph=fast_graph())
 # graph = KozikGraph(graph=small_graph())
 # graph = KozikGraph(graph=karate_graph())
 # graph = KozikGraph(graph=florentine_families_graph())
@@ -147,12 +148,15 @@ def small_graph():
 # graph = KozikGraph(graph=ring_graph())
 # graph = KozikGraph(graph=ring_graph_after_1_step())
 # graph = KozikGraph(graph=ring_graph_after_2_step())
-print(time.perf_counter())
-graph = KozikGraph(graph=fast_graph())
+startpoint = time.perf_counter_ns()
+print("startpoint = 0")
+graph = KozikGraph(graph=florentine_families_graph())
 fast_unfolding = FastUnfolding()
-print(time.perf_counter())
+print("checkpoint1 (after class load) = ")
+print(math.ceil((time.perf_counter_ns() - startpoint)/1000000))
 fast_unfolding.run(graph)
-print(time.perf_counter())
+print("checkpoint2 (after fast_unfolding) = ")
+print(math.ceil((time.perf_counter_ns() - startpoint)/1000000))
 plt.show()
 
 print('stoped')
