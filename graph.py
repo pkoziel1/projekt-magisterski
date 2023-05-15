@@ -9,7 +9,6 @@ import networkx.algorithms.community as nx_comm
 class KozikGraph:
     def __init__(self, graph: Graph):
         self.graph = graph
-        # community -> list of nodes
         self.communities: Dict[int: List[int]] = defaultdict(list)
         self._assign_init_communities()
 
@@ -23,7 +22,6 @@ class KozikGraph:
     def get_nodes(self) -> Iterable[int]:
         return self.graph.nodes
 
-    # TODO: jeśli nie ma wagi, to do połączenia dać wagę 1
     def get_weight(self, u: int, v: int) -> int:
         return self.graph.get_edge_data(u, v)['weight']
 
@@ -86,7 +84,6 @@ class KozikGraph:
         for node in community_nodes:
             for edge in self.get_edges_incident_to(node):
                 if edge[0] in community_nodes and edge[1] in community_nodes:
-                    # if (edge[1], edge[0]) not in edges:
                     if (edge[1], edge[0]) not in edges and (edge[0], edge[1]) not in edges:
                         edges.append(edge)
         return edges
@@ -97,7 +94,6 @@ class KozikGraph:
             edge
             for node in community_nodes
             for edge in self.get_edges_incident_to(node)
-            # if not self.get_node_community(edge[0]) == self.get_node_community(edge[1])
         ]
 
     def get_edges_in_community_incident_to_node_weight_sum(self, u: int, community: int):
@@ -109,26 +105,9 @@ class KozikGraph:
                 self_edges.append(edge)
             elif edge[0] in community_nodes or edge[1] in community_nodes:
                 edges.append(edge)
-        # return self.get_edges_weight_sum(edges) if not self_edges else len(self_edges)
-        # return self.get_edges_weight_sum(edges) if not u == community else len(self_edges)
         return self.get_edges_weight_sum(edges) if not self.get_node_community(u) == community else len(self_edges)
 
-    # =========================== UTILS
-
-    @classmethod
-    def load_karate_graph(cls):
-        G = nx.karate_club_graph()
-        return cls(graph=G)
-
-
 def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
-    # create new nodes and edges....
-
-    # macierze
-
-    # Profiler how do I profile
-
-    # duże grafy prześledzić
 
     G = nx.Graph()
     new_nodes = [community for community, members in kozik_graph.communities.items() if members]
@@ -156,15 +135,3 @@ def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
     G = nx.relabel_nodes(G, inv_mapping)
     new_graph = KozikGraph(graph=G)
     return new_graph
-
-# wstęp
-
-# przegląd literatury
-
-# opisać algorytmy
-
-# przedstawić implementacje
-
-# testy (szybkości itp.)
-
-# podsumowanie (głównie o wadach)
