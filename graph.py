@@ -107,6 +107,7 @@ class KozikGraph:
                 edges.append(edge)
         return self.get_edges_weight_sum(edges) if not self.get_node_community(u) == community else len(self_edges)
 
+
 def generate_child_kozik_graph(kozik_graph: KozikGraph) -> KozikGraph:
 
     G = nx.Graph()
