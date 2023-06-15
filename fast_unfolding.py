@@ -11,7 +11,6 @@ class FastUnfolding:
                 break
             graph = generate_child_kozik_graph(graph)
         print(f'Modularity = {graph.modularity()}')
-        print('stop')
 
     def process_graph(self, graph: KozikGraph):
         for node in graph.get_nodes():
@@ -24,7 +23,7 @@ class FastUnfolding:
                 graph.add_to_community(new_community, node)
 
     def map_modularity_gain_to_neighbours(self, graph: KozikGraph, node: int, neighbours: Iterable[int]) -> dict[
-        int, float]:
+            int, float]:
         gain_map = {}
         for neighbour in neighbours:
             neighbour_community = graph.get_node_community(neighbour)
@@ -39,3 +38,4 @@ class FastUnfolding:
         m = graph.get_all_edges_weight_sum()
         return float("{:.4f}".format(1000*((((Ein + kin) / (2 * m)) - (((Etot + ki) / (2 * m)) ** 2)) - (
                     (Ein / (2 * m)) - ((Etot / (2 * m)) ** 2) - ((ki / (2 * m)) ** 2)))))
+    
