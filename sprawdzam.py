@@ -6,6 +6,8 @@ from graph import KozikGraph
 import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
+from random import randrange
+import plotly.graph_objs as go
 
 
 def get_bitcoin_graph():
@@ -44,6 +46,38 @@ def fast_graph():
     print(f'NetX mod: {mod}')
     return G
 
+def random_graph():
+    G = nx.Graph()
+    number_of_nodes = 500
+    G.add_nodes_from(range(0, number_of_nodes))
+    list_of_nodes = []
+    for i in range(0, number_of_nodes):
+        list_of_nodes.append((i, randrange(number_of_nodes), 1))
+        list_of_nodes.append((randrange(number_of_nodes), randrange(number_of_nodes), 1))
+    G.add_weighted_edges_from(list_of_nodes)
+    nx.draw_networkx_labels(G, pos=nx.circular_layout(G))
+    nx.draw(G, pos=nx.circular_layout(G), node_color='r', edge_color='b')
+
+    print(math.ceil((time.perf_counter_ns() - startpoint) / 1000000))
+    print("^ before greedy algorithm")
+
+    mod = nx_comm.modularity(G, nx_comm.greedy_modularity_communities(G))
+
+    print(math.ceil((time.perf_counter_ns() - startpoint) / 1000000))
+    print("^ after greedy algorithm")
+
+    print(f'NetX mod: {mod}')
+
+    print(math.ceil((time.perf_counter_ns() - startpoint) / 1000000))
+    print("^ before louvain algorithm")
+
+    mod2 = nx_comm.modularity(G, nx_comm.louvain_communities(G))
+
+    print(math.ceil((time.perf_counter_ns() - startpoint) / 1000000))
+    print("^ after louvain algorithm")
+
+    print(f'NetX mod: {mod2}')
+    return G
 
 def ring_graph():
     G = nx.Graph()
@@ -189,7 +223,7 @@ def small_graph():
 print("startpoint = 0")
 startpoint = time.perf_counter_ns()
 
-graph = KozikGraph(graph=karate_graph())
+graph = KozikGraph(graph=random_graph())
 
 fast_unfolding = FastUnfolding()
 
