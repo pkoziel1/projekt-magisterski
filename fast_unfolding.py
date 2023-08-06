@@ -38,4 +38,3 @@ class FastUnfolding:
         m = graph.get_all_edges_weight_sum()
         return float("{:.4f}".format(1000*((((Ein + kin) / (2 * m)) - (((Etot + ki) / (2 * m)) ** 2)) - (
                     (Ein / (2 * m)) - ((Etot / (2 * m)) ** 2) - ((ki / (2 * m)) ** 2)))))
-    
